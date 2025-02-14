@@ -3,52 +3,69 @@ require 'ruby2d'
 set width: 600, height: 800
 
 class Fighter < Sprite
-  
+
   #default_params
   SIZE_OF_ONE_SPRITE = 15
   APPEARANCE_CHARACTER_SIZE = 30 
   DEFAULT_TOP_SPEED = 2
   ACCELERATION_OF_MOVEMENT = 5
-  
+  ONE_SECOND = 60
+  FIGHTER_READY_TIME = ONE_SECOND * 2
+  INVINCIBLE_TIME = ONE_SECOND * 5
+
   #key_config
   MOVE_UP_KEY = 'w'
   MOVE_DOWN_KEY = 's'
   MOVE_LEFT_KEY = 'a'
   MOVE_RIGHT_KEY = 'd'
-  
-  attr_accessor :inclination, :top_speed, :current_speed
-  
+
+  #fighter_attributes
+  ATTRIBUTES = %i[
+    inclination
+    top_speed
+    current_speed
+    tick
+    status
+  ].freeze
+
+  attr_accessor(*Fighter::ATTRIBUTES)
+
   def initialize
     size = APPEARANCE_CHARACTER_SIZE
     super('fighter.png',
       width: size,
       height: size,
-      animations: animations,
+      x: (Window.width - size) / 2,
+      y: Window.height,
+      animations: animations
     )
     self.inclination = :center
     self.top_speed = DEFAULT_TOP_SPEED
     self.current_speed = 0
+    self.tick = 0
+    self.status = :preparation
+  end
+
+  def standby
+    case self.status
+    when :preparation
+      standby_motion
+    end
   end
 
   def move(event)
-    key = event.key
-    move_up if key == MOVE_UP_KEY
-    move_down if key == MOVE_DOWN_KEY
-    move_left if key == MOVE_LEFT_KEY
-    move_right if key == MOVE_DOWN_KEY
+    case self.status
+    when :ready
+    move_motion(event.key)
     accelerate_to_top_speed
     window_limit
+    end
   end
 
   def stop(event)
-    key = event.key
-    up = (key == MOVE_UP_KEY)
-    down = (key == MOVE_DOWN_KEY)
-    left = (key == MOVE_LEFT_KEY)
-    right = (key == MOVE_RIGHT_KEY) 
-    if up || down || left || right
-      idling_motion
-      fighter.current_speed = 0
+    case self.status
+    when :ready
+      stop_motion(event.key)
     end
   end
 
@@ -73,6 +90,38 @@ class Fighter < Sprite
         width: size,
         height: size
       }
+    end
+  end
+
+  def standby_motion
+    speed = DEFAULT_TOP_SPEED
+    standby_time = FIGHTER_READY_TIME
+    up_time = standby_time.to_f / 2
+    idling_motion
+    if self.tick < up_time
+      self.y -= speed
+    elsif self.tick < standby_time
+      self.y += (speed.to_f / 3)
+    else
+      self.status = :ready
+    end
+  end
+
+  def move_motion(key)
+    move_up if key == MOVE_UP_KEY
+    move_down if key == MOVE_DOWN_KEY
+    move_left if key == MOVE_LEFT_KEY
+    move_right if key == MOVE_RIGHT_KEY
+  end
+
+  def stop_motion(key)
+    up = (key == MOVE_UP_KEY)
+    down = (key == MOVE_DOWN_KEY)
+    left = (key == MOVE_LEFT_KEY)
+    right = (key == MOVE_RIGHT_KEY) 
+    if up || down || left || right
+      idling_motion
+      self.current_speed = 0
     end
   end
 
@@ -107,7 +156,7 @@ class Fighter < Sprite
     self.inclination = :left
     self.x -= current_speed
   end
-  
+
   def idling_motion
     play animation: :idling, loop: true
     self.inclination = :center
@@ -186,7 +235,6 @@ class Fighter < Sprite
 end
 
 fighter = Fighter.new
-fighter.idling
 
 on :key do |event|
   fighter.move(event)
@@ -194,6 +242,11 @@ end
 
 on :key_up do |event|
   fighter.stop(event)
+end
+
+update do
+  fighter.standby
+  fighter.tick += 1
 end
 
 show
