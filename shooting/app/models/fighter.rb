@@ -1,12 +1,16 @@
-class Fighter < Rectangle
+class Fighter < Sprite
   attr_accessor :speed
 
   def initialize
-    super
+    super("app/images/fighter.png")
     self.width = 30
     self.height = 30
+    self.clip_width = 15
+    self.clip_height = 15
+    #self.flip_sprite(:horizontal)
     self.speed = 10
     self.remove
+    p self.methods
   end
 
   def move(key)
@@ -18,6 +22,21 @@ class Fighter < Rectangle
   end
 
   private
+
+  def center_image
+    self.clip_x = 0
+    self.flip_sprite(nil)
+  end
+
+  def right_image
+    self.clip_x = 15
+    self.flip_sprite(nil)
+  end
+
+  def left_image
+    self.clip_x = 15
+    self.flip_sprite(:horizontal)
+  end
 
   def window_limit
     top_limit
