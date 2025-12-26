@@ -3,8 +3,11 @@ require "./config"
 fighter = Fighter.new
 game_title = GameTitle.new
 
+tick = 0
+
 update do
 
+  tick += 1
 end
 
 on :key do |event|

@@ -14,14 +14,34 @@ class Fighter < Sprite
   end
 
   def move(key)
-    self.x += self.speed if key == "d"
-    self.x -= self.speed if key == "a"
-    self.y += self.speed if key == "s"
-    self.y -= self.speed if key == "w"
+    self.right_move if key == "d"
+    self.left_move if key == "a"
+    self.down_move if key == "s"
+    self.up_move if key == "w"
     window_limit
   end
 
   private
+
+  def up_move
+    self.y -= self.speed
+    self.center_image
+  end
+
+  def down_move
+    self.y += self.speed
+    self.center_image
+  end
+
+  def right_move
+    self.x += self.speed
+    self.right_image
+  end
+
+  def left_move
+    self.x -= self.speed
+    self.left_image
+  end
 
   def center_image
     self.clip_x = 0
