@@ -1,5 +1,5 @@
 class Fighter < Sprite
-  attr_accessor :speed
+  attr_accessor :speed, :tick, :check_point, :status
 
   def initialize
     super("app/images/fighter.png")
@@ -7,10 +7,11 @@ class Fighter < Sprite
     self.height = 30
     self.clip_width = 15
     self.clip_height = 15
-    #self.flip_sprite(:horizontal)
     self.speed = 10
     self.remove
-    p self.methods
+    self.tick = 0
+    self.status = :clear
+    # [:starting, :ready, :bloken, :clear]
   end
 
   def move(key)
@@ -21,16 +22,32 @@ class Fighter < Sprite
     window_limit
   end
 
+  def nutral(key)
+    if key == "d" || key == "a"
+      center_image
+    end
+  end
+
+  def opening_action
+    if self.status == :clear
+      self.x = (Window.width - self.width) / 2
+      self.y = Window.height - self.height
+      self.status = :starting
+    elsif self.status == :starting
+      self.y -= self.speed / 10.0
+      self.status = :ready if self.y < Window.height / 3 * 2
+    end
+    self.tick += 1
+  end
+
   private
 
   def up_move
     self.y -= self.speed
-    self.center_image
   end
 
   def down_move
     self.y += self.speed
-    self.center_image
   end
 
   def right_move

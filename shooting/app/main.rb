@@ -6,8 +6,9 @@ game_title = GameTitle.new
 tick = 0
 
 update do
-
+  fighter.opening_action
   tick += 1
+  fighter.tick += 1
 end
 
 on :key do |event|
@@ -22,6 +23,11 @@ on :key_down do |event|
     game_title.remove
     fighter.add
   end
+end
+
+on :key_up do |event|
+  key = event.key
+  fighter.nutral(key)
 end
 
 show
