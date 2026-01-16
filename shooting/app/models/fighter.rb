@@ -10,7 +10,7 @@ class Fighter < Sprite
     self.speed = 10
     self.remove
     self.tick = 0
-    self.status = :clear
+    self.status = nil
     # [:starting, :ready, :bloken, :clear]
   end
 

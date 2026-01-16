@@ -13,7 +13,10 @@ end
 
 on :key do |event|
   key = event.key
-  fighter.move(key)
+  case fighter.status
+  when :ready
+    fighter.move(key)
+  end
 end
 
 on :key_down do |event|
@@ -21,6 +24,7 @@ on :key_down do |event|
   case key
   when "space"
     game_title.remove
+    fighter.status = :clear
     fighter.add
   end
 end
