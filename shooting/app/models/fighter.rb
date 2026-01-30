@@ -29,15 +29,19 @@ class Fighter < Sprite
   end
 
   def opening_action
-    if self.status == :clear
+    case self.status
+    when :clear
       self.x = (Window.width - self.width) / 2
       self.y = Window.height - self.height
       self.status = :starting
-    elsif self.status == :starting
+    when :starting
       self.y -= self.speed / 10.0
-      self.status = :ready if self.y < Window.height / 3 * 2
+      self.color = "random"
+      if self.y < Window.height / 4 * 3
+        self.status = :ready 
+        self.color = "white"
+      end
     end
-    self.tick += 1
   end
 
   private

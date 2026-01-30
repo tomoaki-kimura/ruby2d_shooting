@@ -3,12 +3,17 @@ require "./config"
 fighter = Fighter.new
 game_title = GameTitle.new
 
+bullets = []
+
 tick = 0
 
 update do
   fighter.opening_action
+  #次回弾を動かすメソッドに作り替える
+  bullets.each do |bullet|
+    bullet.y -= bullet.speed
+  end
   tick += 1
-  fighter.tick += 1
 end
 
 on :key do |event|
@@ -26,6 +31,8 @@ on :key_down do |event|
     game_title.remove
     fighter.status = :clear
     fighter.add
+  when "j"
+    Bullet.set(bullets, fighter)
   end
 end
 
