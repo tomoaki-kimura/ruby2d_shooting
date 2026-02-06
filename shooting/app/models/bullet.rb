@@ -5,7 +5,7 @@ class Bullet < Circle
     super(
       radius: 3
     )
-    self.speed = 5
+    self.speed = 15
   end
 
   def self.set(bullets, fighter)
@@ -13,5 +13,11 @@ class Bullet < Circle
     bullet.x = fighter.x + (fighter.width / 2)
     bullet.y = fighter.y
     bullets << bullet
+  end
+
+  def self.move(bullets)
+    bullets.each do |bullet|
+      bullet.y -= bullet.speed
+    end
   end
 end

@@ -7,7 +7,7 @@ class Fighter < Sprite
     self.height = 30
     self.clip_width = 15
     self.clip_height = 15
-    self.speed = 10
+    self.speed = 5
     self.remove
     self.tick = 0
     self.status = nil
@@ -35,7 +35,7 @@ class Fighter < Sprite
       self.y = Window.height - self.height
       self.status = :starting
     when :starting
-      self.y -= self.speed / 10.0
+      self.y -= self.speed / 5
       self.color = "random"
       if self.y < Window.height / 4 * 3
         self.status = :ready 

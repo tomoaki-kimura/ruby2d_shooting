@@ -9,10 +9,7 @@ tick = 0
 
 update do
   fighter.opening_action
-  #次回弾を動かすメソッドに作り替える
-  bullets.each do |bullet|
-    bullet.y -= bullet.speed
-  end
+  Bullet.move(bullets)
   tick += 1
 end
 
@@ -32,7 +29,9 @@ on :key_down do |event|
     fighter.status = :clear
     fighter.add
   when "j"
-    Bullet.set(bullets, fighter)
+    if fighter.status == :ready
+      Bullet.set(bullets, fighter)
+    end
   end
 end
 
