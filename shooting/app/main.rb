@@ -1,5 +1,6 @@
 require "./config"
 
+@status = Status.new
 fighter = Fighter.new
 game_title = GameTitle.new
 
@@ -25,9 +26,12 @@ on :key_down do |event|
   key = event.key
   case key
   when "space"
-    game_title.remove
-    fighter.status = :clear
-    fighter.add
+    if @status.game_status == :title
+      game_title.remove
+      fighter.status = :clear
+      @status.to_start
+      fighter.add
+    end
   when "j"
     if fighter.status == :ready
       Bullet.set(bullets, fighter)
