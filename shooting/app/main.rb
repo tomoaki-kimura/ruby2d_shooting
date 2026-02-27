@@ -5,12 +5,15 @@ fighter = Fighter.new
 game_title = GameTitle.new
 
 bullets = []
+stars = []
 
 tick = 0
 
 update do
   fighter.opening_action
   Bullet.move(bullets)
+  Star.set(stars) if tick % 10 == 0
+  Star.move(stars)
   tick += 1
 end
 
