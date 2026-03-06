@@ -12,14 +12,15 @@ class Star < Circle
     star = self.new
     star.x = rand(2..Window.width - 2)
     position = rand(0..4)
+    star.color = "random"
     if position == 0 || position == 2
       star.speed = 3
-      star.radius = 3
-      star.color = "white"
+      star.radius = 2
+      star.color.opacity = 0.8
     else
       star.speed = 2
-      star.radius = 2
-      star.color = "random"
+      star.radius = 1.5
+      star.color.opacity = 0.6
     end
     stars << star
   end

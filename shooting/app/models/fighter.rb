@@ -1,5 +1,14 @@
 class Fighter < Sprite
-  attr_accessor :speed, :tick, :check_point, :status
+  FIGHTER_ATTRIBUTES = %i(
+    speed
+    tick
+    check_point
+    status
+    pow
+    level
+  )
+
+  attr_accessor *FIGHTER_ATTRIBUTES
 
   def initialize
     super("app/images/fighter.png")
@@ -7,11 +16,13 @@ class Fighter < Sprite
     self.height = 30
     self.clip_width = 15
     self.clip_height = 15
-    self.speed = 5
+    self.speed = 3.0
     self.remove
     self.tick = 0
     self.status = nil
     # [:starting, :ready, :bloken, :clear]
+    self.pow = 0
+    self.level = 1
   end
 
   def move(key)
@@ -35,7 +46,7 @@ class Fighter < Sprite
       self.y = Window.height - self.height
       self.status = :starting
     when :starting
-      self.y -= self.speed / 5
+      self.y -= 1
       self.color = "random"
       if self.y < Window.height / 4 * 3
         self.status = :ready 
