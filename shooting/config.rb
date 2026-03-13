@@ -1,4 +1,5 @@
 require "ruby2d"
+include Math
 
 set width: 600, height: 800
 

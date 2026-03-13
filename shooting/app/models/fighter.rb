@@ -22,7 +22,9 @@ class Fighter < Sprite
     self.status = nil
     # [:starting, :ready, :bloken, :clear]
     self.pow = 0
+    # powを3つ取ったらpow=0;level+=1
     self.level = 1
+    # levelは1..3
   end
 
   def move(key)

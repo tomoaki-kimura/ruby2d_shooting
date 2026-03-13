@@ -21,3 +21,10 @@ class Bullet < Circle
     end
   end
 end
+
+# 角度からラジアンに変換
+# r = 45.0 * PI / 180
+# X方向
+# cos(r)
+# Y方向
+# sin(r)
