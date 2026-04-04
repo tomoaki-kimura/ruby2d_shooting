@@ -1,0 +1,2 @@
+class ItemPow < Sprite
+end

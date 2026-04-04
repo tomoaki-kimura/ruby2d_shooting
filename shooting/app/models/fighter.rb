@@ -23,7 +23,7 @@ class Fighter < Sprite
     # [:starting, :ready, :bloken, :clear]
     self.pow = 0
     # powを3つ取ったらpow=0;level+=1
-    self.level = 1
+    self.level = 2
     # levelは1..3
   end
 
