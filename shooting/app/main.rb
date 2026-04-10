@@ -6,14 +6,22 @@ game_title = GameTitle.new
 
 bullets = []
 stars = []
+items = []
 
 tick = 0
 
 update do
-  fighter.opening_action
-  Bullet.move(bullets)
   Star.set(stars) if tick % 10 == 0
   Star.move(stars)
+
+  case @status.game_status
+  when :title
+  when :start
+    fighter.opening_action
+    Bullet.move(bullets)
+    ItemPow.set([0, 0], items) if tick % 180 == 0
+    items.each { |item| item.move }
+  end
   tick += 1
 end
 
