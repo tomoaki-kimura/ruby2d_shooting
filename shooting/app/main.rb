@@ -21,6 +21,9 @@ update do
     Bullet.move(bullets)
     ItemPow.set([0, 0], items) if tick % 180 == 0
     items.each { |item| item.move }
+    items.each do |item|
+      item.touch(fighter, items)
+    end
   end
   tick += 1
 end

@@ -57,6 +57,15 @@ class Fighter < Sprite
     end
   end
 
+  def hit_area
+    [
+      [
+        self.x + self.width / 2,
+        self.y + self.height / 2
+      ]
+    ]
+  end
+
   private
 
   def up_move

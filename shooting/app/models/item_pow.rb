@@ -19,4 +19,10 @@ class ItemPow < Sprite
     item.y = position.last
     items << item
   end
+
+  def touch(fighter, items)
+    fighter.hit_area.each do |point|
+      p self.contains?(*point)
+    end
+  end
 end
