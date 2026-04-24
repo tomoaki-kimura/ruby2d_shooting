@@ -23,7 +23,7 @@ class Fighter < Sprite
     # [:starting, :ready, :bloken, :clear]
     self.pow = 0
     # powを3つ取ったらpow=0;level+=1
-    self.level = 2
+    self.level = 1
     # levelは1..3
   end
 
@@ -58,12 +58,36 @@ class Fighter < Sprite
   end
 
   def hit_area
-    [
-      [
-        self.x + self.width / 2,
-        self.y + self.height / 2
-      ]
-    ]
+    offset = 10
+    offset_map = [offset * -1, offset]
+    area = []
+    offset_map.each do |y|
+      offset_map.each do |x|
+        area << [
+          self.x + self.width / 2 + x,
+          self.y + self.height / 2 + y
+        ]
+      end
+    end
+    area
+  end
+
+  def power_up
+    if self.level < 3
+      if self.pow < 2
+        self.pow += 1
+      else
+        self.pow = 0
+        self.level += 1
+      end 
+    end
+  end
+
+  def power_down
+    if self.level > 0
+      self.level -= 1
+    end
+    self.pow = 0
   end
 
   private

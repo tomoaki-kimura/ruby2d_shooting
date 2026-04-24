@@ -22,7 +22,12 @@ class ItemPow < Sprite
 
   def touch(fighter, items)
     fighter.hit_area.each do |point|
-      p self.contains?(*point)
+      if self.contains?(*point)
+        self.remove
+        items.delete(self)
+        fighter.power_up
+        break
+      end
     end
   end
 end
