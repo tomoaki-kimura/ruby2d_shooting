@@ -7,6 +7,7 @@ require "./app/models/fighter"
 require "./app/models/bullet"
 require "./app/models/star"
 require "./app/models/item_pow"
+require "./app/models/enemy_1"
 
 require "./app/messages/game_title"
 
