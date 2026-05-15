@@ -7,6 +7,7 @@ game_title = GameTitle.new
 bullets = []
 stars = []
 items = []
+enemies = []
 
 tick = 0
 
@@ -23,6 +24,10 @@ update do
     items.each { |item| item.move }
     items.each do |item|
       item.touch(fighter, items)
+    end
+    enemies << Enemy1.new if tick % 20 == 0 && rand(0..2) == 0
+    enemies.each do |enemy|
+      enemy.move(enemies)
     end
   end
   tick += 1

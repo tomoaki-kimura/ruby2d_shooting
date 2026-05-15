@@ -14,8 +14,17 @@ class Enemy1 < Sprite
         ]
       }
     )
+    self.x = rand(0..(Window.width - self.width))
+    self.y = 0 - self.height
+    self.play(animation: :roll, loop: true)
+    self.speed = 3
+  end
+
+  def move(enemies)
+    self.y += self.speed
+    if self.y > Window.height
+      self.remove
+      enemies.delete(self)
+    end
   end
 end
-
-enemy = Enemy1.new
-enemy.play(animation: :roll, loop: true)
