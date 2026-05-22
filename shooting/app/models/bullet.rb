@@ -21,11 +21,23 @@ class Bullet < Circle
     end
   end
 
-  def self.move(bullets)
+  def self.move(bullets, enemies)
     bullets.each do |bullet|
       r = (bullet.angle + 90) * PI / 180
       bullet.x += cos(r) * bullet.speed
       bullet.y -= sin(r) * bullet.speed
+      bullet.hit(enemies, bullets)
+    end
+  end
+
+  def hit(enemies, bullets)
+    enemies.each do |enemy|
+      if enemy.contains?(self.x, self.y)
+        enemy.remove
+        enemies.delete(enemy)
+        self.remove
+        bullets.delete(self)
+      end
     end
   end
 end

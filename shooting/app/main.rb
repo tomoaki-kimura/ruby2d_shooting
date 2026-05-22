@@ -19,7 +19,7 @@ update do
   when :title
   when :start
     fighter.opening_action
-    Bullet.move(bullets)
+    Bullet.move(bullets, enemies)
     ItemPow.set([0, 0], items) if tick % 180 == 0
     items.each { |item| item.move }
     items.each do |item|
