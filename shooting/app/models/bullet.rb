@@ -21,18 +21,19 @@ class Bullet < Circle
     end
   end
 
-  def self.move(bullets, enemies)
+  def self.move(bullets, enemies, burns)
     bullets.each do |bullet|
       r = (bullet.angle + 90) * PI / 180
       bullet.x += cos(r) * bullet.speed
       bullet.y -= sin(r) * bullet.speed
-      bullet.hit(enemies, bullets)
+      bullet.hit(enemies, bullets, burns)
     end
   end
 
-  def hit(enemies, bullets)
+  def hit(enemies, bullets, burns)
     enemies.each do |enemy|
       if enemy.contains?(self.x, self.y)
+        burns << Burn.new(enemy.x + enemy.width / 2, enemy.y + enemy.height / 2)
         enemy.remove
         enemies.delete(enemy)
         self.remove

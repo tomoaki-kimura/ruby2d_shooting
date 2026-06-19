@@ -6,6 +6,8 @@ class Fighter < Sprite
     status
     pow
     level
+    life
+    life_gauge
   )
 
   attr_accessor *FIGHTER_ATTRIBUTES
@@ -25,6 +27,8 @@ class Fighter < Sprite
     # powを3つ取ったらpow=0;level+=1
     self.level = 1
     # levelは1..3
+    self.life = 3
+    self.life_gauge = show_life
   end
 
   def move(key)
@@ -88,6 +92,17 @@ class Fighter < Sprite
       self.level -= 1
     end
     self.pow = 0
+  end
+
+  def bloken_by(enemy, enemies)
+    self.hit_area.each do |area|
+      if enemy.contains?(*area)
+        self.remove
+        self.life -= 1
+        enemy.remove
+        break
+      end
+    end
   end
 
   private
@@ -154,5 +169,15 @@ class Fighter < Sprite
     if self.x > Window.width - self.width
       self.x = Window.width - self.width
     end
+  end
+
+  def show_life
+    Text.new("Life: #{life}",
+      x: 20, y: 15)
+  end
+
+  def reload_life
+    self.life_gauge.remove
+    self.life_gauge = show_life
   end
 end

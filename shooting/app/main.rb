@@ -8,6 +8,7 @@ bullets = []
 stars = []
 items = []
 enemies = []
+burns = []
 
 tick = 0
 
@@ -19,7 +20,7 @@ update do
   when :title
   when :start
     fighter.opening_action
-    Bullet.move(bullets, enemies)
+    Bullet.move(bullets, enemies, burns)
     ItemPow.set([0, 0], items) if tick % 180 == 0
     items.each { |item| item.move }
     items.each do |item|
@@ -28,7 +29,9 @@ update do
     enemies << Enemy1.new if tick % 20 == 0 && rand(0..2) == 0
     enemies.each do |enemy|
       enemy.move(enemies)
+      fighter.bloken_by(enemy, enemies)
     end
+    Burn.selected_delete(burns)
   end
   tick += 1
 end
